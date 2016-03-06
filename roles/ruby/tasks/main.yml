@@ -35,3 +35,9 @@
   shell: "{{ vagrant_home }}/.rbenv/shims/gem install bundler"
   args:
     creates: "{{ vagrant_home }}/.rbenv/shims/bundle"
+
+- name: bundler install
+  gem:
+    name: bundler
+    executable: /home/vagrant/.rbenv/shims/gem
+    user_install: false
