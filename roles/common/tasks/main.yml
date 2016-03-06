@@ -1,0 +1,24 @@
+ # package installation
+- name: yum update
+  sudo: true
+  yum: name=* state=latest
+
+- name: install basic packages
+  sudo: true
+  yum: name={{ item }} state=installed
+  with_items:
+    - git
+    - vim
+    - curl-devel
+    - libffi-devel
+    - expat-devel
+    - gettext-devel
+    - openssl-devel
+    - zlib-devel
+    - perl-ExtUtils-MakeMaker
+    - libxslt-devel
+    - libxml2-devel
+    - sqlite-devel
+    - gcc
+    - gcc-c++
+    - readline-devel

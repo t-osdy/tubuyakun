@@ -1,0 +1,8 @@
+---
+- name: Install Development
+  hosts: vagrant
+  user: vagrant
+
+  roles:
+    - common
+    - ruby

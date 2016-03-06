@@ -1,0 +1,71 @@
+---
+- name: install ruby dependency packages
+  sudo: true
+  yum: name={{ item }} update_cache=yes
+  with_items:
+    - git-core
+    - libssl-dev
+    - libqt4-dev
+    - libc6-dev
+    - automake
+    - libtool
+    - libyaml
+    - zlib1g
+    - zlib1g-dev
+    - openssl
+    - libssl-dev
+    - libreadline-dev
+    - libxml2-dev
+    - libxslt1-dev
+    - libncurses5-dev
+    - pkg-config
+    - chrpath
+    - libfontconfig1-dev
+    - libxft-dev
+
+- name: install rbenv
+  sudo: true
+  git: repo=https://github.com/sstephenson/rbenv.git
+       dest={{ vagrant_home }}/.rbenv
+       version=master
+
+- name: install ruby_build
+  sudo: true
+  git: repo=https://github.com/sstephenson/ruby-build.git
+       dest={{ vagrant_home }}/.rbenv/plugins/ruby-build
+       version=master
+
+- name: Add ~.rbenv/bin to PATH
+  sudo: true
+  lineinfile: >
+    dest="~/.bush_profile"
+    line="export PATH=$HOME/.rbenv/bin:$PATH"
+
+- name: Eval rbenv init in ~/.profile
+  sudo: true
+  lineinfile: >
+    dest="~/.bush_profile"
+    line='eval "$(rbenv init -)"'
+
+- name: shell reload
+  sudo: true
+  shell: "exec $SHELL -l"
+
+- name: install ruby 2.2.3
+  sudo: true
+  shell: "export RBENV_ROOT={{ vagrant_home }}/.rbenv;
+          export PATH=$RBENV_ROOT/bin:$PATH;
+          echo N | rbenv install {{ ruby_version }};
+          rbenv global {{ ruby_version }}"
+  args:
+    creates: "{{ vagrant_home }}/.rbenv/versions/{{ ruby_version }}/"
+
+- name: install bundler
+  sudo: true
+  shell: "{{ vagrant_home }}/.rbenv/shims/gem install bundler"
+  args:
+    creates: "{{ vagrant_home }}/.rbenv/shims/bundle"
+
+- name: change ~/.rbenv owner to vagrant
+  sudo: true
+  file: path={{ vagrant_home }}/.rbenv state=directory owner=vagrant group=vagrant recurse=yes
