@@ -11,3 +11,7 @@
 * `vagrant ssh`
 * `cd /vagrant`
 * `bundle exec shotgun --server=thin --port=3000 -o 192.168.33.33`
+
+## TODO
+* mysql化
+*
