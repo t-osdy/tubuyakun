@@ -6,8 +6,5 @@ gem 'sass'
 gem 'slim'
 gem 'coffee-script'
 gem 'therubyracer'
-
-group :develoopment do
-  gem 'shotgun'
-  gem 'thin'
-end
+gem 'shotgun'
+gem 'thin'

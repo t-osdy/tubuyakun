@@ -5,3 +5,4 @@
 .vagrant
 /.vagrant
 site.retry
+Gemfile.lock
